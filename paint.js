@@ -149,13 +149,13 @@ paint.addEventListener('touchstart', e => {
     if(presentFrame!=frames.length-1){
         frames.splice(presentFrame+1,frames.length);
     }
-    x = e.clientX - rect.left;
-    y = e.clientY - rect.top; // to get the cursor position relative to the canvas
+    x = e.touches[0].clientX - rect.left;
+    y = e.touches[0].clientY - rect.top; // to get the cursor position relative to the canvas
     if(activeButton == 4){
         pixel = ctx.getImageData(x, y, 1, 1);
         var pxData = [pixel.data[0],pixel.data[1],pixel.data[2]]; 
         fillArea(x,y,pxData);
-        //console.log("filled");
+        console.log("filled");
     }
     
     else{
@@ -186,31 +186,31 @@ paint.addEventListener('touchmove', e => {
         //width common for brushes and eraser    
         width = document.getElementById("size_in_px").value; 
         if(activeButton!=2 && activeButton!=5){
-            lineDraw(ctx,x,y,e.clientX - rect.left,e.clientY - rect.top,style,width);
-            x = e.clientX - rect.left;
-            y = e.clientY - rect.top;
+            lineDraw(ctx,x,y,e.touches[0].clientX - rect.left,e.touches[0].clientY - rect.top,style,width);
+            x = e.touches[0].clientX - rect.left;
+            y = e.touches[0].clientY - rect.top;
         }
         else if(activeButton==2){
             
             if(shapeSelected == "Line"){
                 
                 ctx.putImageData(imgData, 0, 0);
-                lineDraw(ctx,x,y,e.clientX - rect.left,e.clientY - rect.top,style,width);
+                lineDraw(ctx,x,y,e.touches[0].clientX - rect.left,e.touches[0].clientY - rect.top,style,width);
             }
             else if(shapeSelected == "Circle"){
                 ctx.putImageData(imgData, 0, 0);
                 var r=0;
-                if(Math.abs(e.clientX - rect.left-x) > Math.abs(e.clientY - rect.top-y)){
-                    r = Math.abs(e.clientX - rect.left-x)
+                if(Math.abs(e.touches[0].clientX - rect.left-x) > Math.abs(e.touches[0].clientY - rect.top-y)){
+                    r = Math.abs(e.touches[0].clientX - rect.left-x)
                 }
-                else{r = Math.abs(e.clientY - rect.top-y)}
+                else{r = Math.abs(e.touches[0].clientY - rect.top-y)}
                 
                 circleDraw(ctx,x,y,r,style,width);
             }
             else if(shapeSelected == "Square"){
                 ctx.putImageData(imgData, 0, 0);
-                w = e.clientX - rect.left-x;
-                h = e.clientY - rect.top-y;
+                w = e.touches[0].clientX - rect.left-x;
+                h = e.touches[0].clientY - rect.top-y;
                 squareDraw(ctx,x,y,w,h,style,width);
             }
         }
@@ -224,7 +224,7 @@ paint.addEventListener('touchmove', e => {
         //console.log("px ".concat(txtfont));
         txtWidth = document.getElementById("size_in_px").value*10;
         txtStyle = document.getElementById("color_ip").value;
-        textDraw(ctx,e.clientX - rect.left,e.clientY - rect.top,document.getElementById("te").value,txtWidth,"px ".concat(txtfont),txtStyle);
+        textDraw(ctx,e.touches[0].clientX - rect.left,e.touches[0].clientY - rect.top,document.getElementById("te").value,txtWidth,"px ".concat(txtfont),txtStyle);
     }
 })
 
@@ -232,8 +232,8 @@ paint.addEventListener('touchend', e => {
     addFrame(ctx.getImageData(0, 0, 1370, 600));
     presentFrame=frames.length-1;
     //console.log(presentFrame);
-    x = e.clientX - rect.left;
-    y = e.clientY - rect.top;
+    x = e.touches[0].clientX - rect.left;
+    y = e.touches[0].clientY - rect.top;
     isDrawing = false;
     x = 0;
     y = 0;

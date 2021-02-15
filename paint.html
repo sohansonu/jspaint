@@ -1,0 +1,140 @@
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="paint.css">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Coda+Caption:wght@800&family=Gorditas&family=Hachi+Maru+Pop&family=Lobster&family=Montserrat&family=Potta+One&display=swap" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://kit.fontawesome.com/49cd607fec.js" crossorigin="anonymous"></script>
+</head>
+<body>
+	<div id="buttons">
+		
+		<ul class="Buttons">
+			<li>
+				<button onclick="brush()" id="Brush" class="Brush active">
+					
+						<i class="fa fa-pencil"></i>
+					
+				</button>
+			</li>
+			<li>
+				<button onclick="multicolor()" id="multicolor" class="multicolor">
+					<span style=" background: -webkit-gradient(linear, right top, left bottom, from(#49d6fc), to(#9900ff));
+									-webkit-background-clip: text;
+									-webkit-text-fill-color: transparent; font-size: 20px">
+						<i class="fas fa-paint-brush"></i>
+					</span>
+				</button>
+			</li>
+			<li>
+				<button onclick="eraser()" id="Eraser" class="Eraser">
+					
+						<i class="fas fa-eraser"></i>
+					
+				</button>
+			</li>
+			<li>
+				<button onclick="fill()" id="Fill" class="Fill">
+					
+						<i class="fas fa-fill"></i>
+					
+				</button>
+			</li>
+			<li>
+				<button onclick="Clear()" id="Clear" class="Clear">
+					C
+				</button>
+			</li>
+			<li>
+				<input type="color" id="color_ip" name="color_ip" value="#ffffff">
+			</li>
+			<li class="slider">
+				<p>Size :</p>
+				<input type="range" id="size_in_px" name="vol" min="1" max="20">
+				<p id="range_display"></p>
+			</li>
+			<li>
+				<div class="dropdown">
+					  <button class="shapes" id="Shapes">
+					  	
+					  		<i class="fas fa-shapes"></i>
+					  	
+					  </button>
+					  <div class="dropdown-content">
+
+					    <button onclick="Line()" id="Line" class="Line"><i class="fas fa-minus"></i></button>
+
+					    <button onclick="Circle()" id="Circle" class="Circle"><i class="far fa-circle"></i></button>
+
+					    <button onclick="Square()" id="Square" class="Square"><i class="far fa-square"></i></button>
+
+					     <!--<button onclick="Square()" id="Square" class="Square"><span style="color: white; font-size: 18px;"><i class="far fa-square"></i></span></button>-->
+
+					  </div>
+				</div>
+			</li>
+			<li>
+				<button onclick="undo()" class="undo" id="Undo">
+				
+					    <i class="fas fa-undo"></i>
+					
+				</button>
+			</li>
+			<li>
+				<button onclick="redo()" class="redo" id="Redo">
+					
+					    <i class="fas fa-redo"></i>
+				
+				</button>
+			</li>
+			<li>
+				<button id="txtEntry">
+						
+					    <i class="fas fa-font"></i>
+					
+				</button>
+				<div class="textEntry" id="textEntry">
+					<div class="modal-content">
+					    <span class="close">&times;</span>
+					    <form id="msform=">
+					        <fieldset>
+					            <h2 class="fs-title">Enter Text</h2>
+					            <input id="te" type="text" name="te" placeholder="Text" class="te"/>
+					            <span class="ok">ok</span>
+					        </fieldset>        
+					    </form>
+					</div>
+				</div>
+			</li>
+			<li>
+				<div class="dropdown">
+					  <button class="Fonts" id="Fonts" style="font-family: Times New Roman; font-size: 18px;">
+					  	Font	
+					  </button>
+					  <div class="dropdown-content drop_2">
+					  	<button onclick="setFont('Times New Roman')"><p style="font-family: Times New Roman;">Sample Text</p></button>
+
+					  	<button onclick="setFont('Coda Caption, sans-serif')"><p style="font-family: 'Coda Caption', sans-serif;">Sample Text</p></button>
+
+					  	<button onclick="setFont('Gorditas, cursive')"><p style="font-family: 'Gorditas', cursive;">Sample Text</p></button>
+
+					  	<button onclick="setFont('Hachi Maru Pop, cursive')"><p style="font-family: 'Hachi Maru Pop', cursive;">Sample Text</p></button>
+
+					  	<button onclick="setFont('Lobster, cursive')"><p style="font-family: 'Lobster', cursive;">Sample Text</p></button>
+
+					  	<button onclick="setFont('Montserrat, sans-serif')"><p style="font-family: 'Montserrat', sans-serif;">Sample Text</p></button>
+
+					  	<button onclick="setFont('Potta One')"><p style="font-family: 'Potta One', cursive;">Sample Text</p></button>
+					  </div>
+				</div>
+			</li>
+		</ul>
+		
+	</div>
+	<div class="paint_area" id="paint_area">
+		<canvas id="paint">
+		</canvas>
+	</div>
+<script type="text/javascript" src="paint.js"></script>	
+</body>
+</html>

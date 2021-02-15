@@ -144,7 +144,101 @@ paint.addEventListener('mouseup', e => {
     if(activeButton == 5){ctx.globalCompositeOperation = 'source-over';}
 })
 
+paint.addEventListener('touchstart', e => {
+    
+    if(presentFrame!=frames.length-1){
+        frames.splice(presentFrame+1,frames.length);
+    }
+    x = e.clientX - rect.left;
+    y = e.clientY - rect.top; // to get the cursor position relative to the canvas
+    if(activeButton == 4){
+        pixel = ctx.getImageData(x, y, 1, 1);
+        var pxData = [pixel.data[0],pixel.data[1],pixel.data[2]]; 
+        fillArea(x,y,pxData);
+        //console.log("filled");
+    }
+    
+    else{
+        isDrawing = true;
+        isDrawingText = false;
+        if(activeButton == 2){
+            imgData = ctx.getImageData(0, 0, 1370, 600);
+        
+        }
+    }
+})
 
+paint.addEventListener('touchmove', e => {
+
+    if(isDrawing === true){
+
+        if(activeButton != 1 && activeButton != 3){
+            style = document.getElementById("color_ip").value;
+            //console.log(style);
+        }
+        else if(activeButton == 1){style = "#000"}
+        else if(activeButton == 3){
+            var temp_rbg=get_rgb(rgb);
+            rgb = temp_rbg;
+            style = `rgba(${rgb[0]},${rgb[1]},${rgb[2]})`;
+        }    
+
+        //width common for brushes and eraser    
+        width = document.getElementById("size_in_px").value; 
+        if(activeButton!=2 && activeButton!=5){
+            lineDraw(ctx,x,y,e.clientX - rect.left,e.clientY - rect.top,style,width);
+            x = e.clientX - rect.left;
+            y = e.clientY - rect.top;
+        }
+        else if(activeButton==2){
+            
+            if(shapeSelected == "Line"){
+                
+                ctx.putImageData(imgData, 0, 0);
+                lineDraw(ctx,x,y,e.clientX - rect.left,e.clientY - rect.top,style,width);
+            }
+            else if(shapeSelected == "Circle"){
+                ctx.putImageData(imgData, 0, 0);
+                var r=0;
+                if(Math.abs(e.clientX - rect.left-x) > Math.abs(e.clientY - rect.top-y)){
+                    r = Math.abs(e.clientX - rect.left-x)
+                }
+                else{r = Math.abs(e.clientY - rect.top-y)}
+                
+                circleDraw(ctx,x,y,r,style,width);
+            }
+            else if(shapeSelected == "Square"){
+                ctx.putImageData(imgData, 0, 0);
+                w = e.clientX - rect.left-x;
+                h = e.clientY - rect.top-y;
+                squareDraw(ctx,x,y,w,h,style,width);
+            }
+        }
+ 
+        
+        
+        //let's try it
+    }
+    else if(isDrawingText === true){
+        ctx.putImageData(imgData, 0, 0);
+        //console.log("px ".concat(txtfont));
+        txtWidth = document.getElementById("size_in_px").value*10;
+        txtStyle = document.getElementById("color_ip").value;
+        textDraw(ctx,e.clientX - rect.left,e.clientY - rect.top,document.getElementById("te").value,txtWidth,"px ".concat(txtfont),txtStyle);
+    }
+})
+
+paint.addEventListener('touchend', e => {
+    addFrame(ctx.getImageData(0, 0, 1370, 600));
+    presentFrame=frames.length-1;
+    //console.log(presentFrame);
+    x = e.clientX - rect.left;
+    y = e.clientY - rect.top;
+    isDrawing = false;
+    x = 0;
+    y = 0;
+    if(activeButton == 5){ctx.globalCompositeOperation = 'source-over';}
+})
 //Now we will add the function for different button
 function brush(){
     active(0);

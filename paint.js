@@ -159,8 +159,9 @@ paint.addEventListener('touchstart', e => {
     }
     
     else{
-        isDrawing = true;
-        isDrawingText = false;
+        if(!isDrawingText){
+            isDrawing = true;
+        }
         if(activeButton == 2){
             imgData = ctx.getImageData(0, 0, 1370, 600);
         
@@ -235,6 +236,7 @@ paint.addEventListener('touchend', e => {
     x = e.touches[0].clientX - rect.left;
     y = e.touches[0].clientY - rect.top;
     isDrawing = false;
+    isDrawingText = false;
     x = 0;
     y = 0;
     if(activeButton == 5){ctx.globalCompositeOperation = 'source-over';}

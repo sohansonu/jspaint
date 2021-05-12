@@ -12,7 +12,7 @@ let rect = paint.getBoundingClientRect();
 let isDrawing = false;
 let isDrawingText = false;
 let imgData=0;
-let frames=[ctx.getImageData(0, 0, 1370, 600)];
+let frames=[ctx.getImageData(0, 0, pA.clientWidth, pA.clientHeight)];
 let presentFrame=0;
 let pixel = 0;
 
@@ -66,7 +66,7 @@ paint.addEventListener('mousedown', e => {
         isDrawing = true;
         isDrawingText = false;
         if(activeButton == 2){
-            imgData = ctx.getImageData(0, 0, 1370, 600);
+            imgData = ctx.getImageData(0, 0, pA.clientWidth, pA.clientHeight);
         
         }
     }
@@ -133,17 +133,17 @@ paint.addEventListener('mousemove', e => {
 })
 
 paint.addEventListener('mouseup', e => {
-    addFrame(ctx.getImageData(0, 0, 1370, 600));
+    addFrame(ctx.getImageData(0, 0, pA.clientWidth, pA.clientHeight));
     presentFrame=frames.length-1;
     //console.log(presentFrame);
     x = e.clientX - rect.left;
     y = e.clientY - rect.top;
     isDrawing = false;
+    isDrawingText=false;
     x = 0;
     y = 0;
     if(activeButton == 5){ctx.globalCompositeOperation = 'source-over';}
 })
-
 paint.addEventListener('touchstart', e => {
     
     if(presentFrame!=frames.length-1){
@@ -162,8 +162,9 @@ paint.addEventListener('touchstart', e => {
         if(!isDrawingText){
             isDrawing = true;
         }
+        //isDrawingText = false;
         if(activeButton == 2){
-            imgData = ctx.getImageData(0, 0, 1370, 600);
+            imgData = ctx.getImageData(0, 0, pA.clientWidth, pA.clientHeight);
         
         }
     }
@@ -230,7 +231,7 @@ paint.addEventListener('touchmove', e => {
 })
 
 paint.addEventListener('touchend', e => {
-    addFrame(ctx.getImageData(0, 0, 1370, 600));
+    addFrame(ctx.getImageData(0, 0, pA.clientWidth, pA.clientHeight));
     presentFrame=frames.length-1;
     //console.log(presentFrame);
     x = e.touches[0].clientX - rect.left;
@@ -241,6 +242,7 @@ paint.addEventListener('touchend', e => {
     y = 0;
     if(activeButton == 5){ctx.globalCompositeOperation = 'source-over';}
 })
+
 //Now we will add the function for different button
 function brush(){
     active(0);
@@ -258,7 +260,7 @@ function fill(){
 }
 function Clear(){
     ctx.clearRect(0,0,paint.width,paint.height);
-    addFrame(ctx.getImageData(0, 0, 1370, 600));
+    addFrame(ctx.getImageData(0, 0, pA.clientWidth, pA.clientHeight));
     presentFrame=frames.length-1;
 }
 
@@ -316,6 +318,12 @@ function redo(){
 }
 function setFont(fnt){
     fontBtn.style.fontFamily = fnt;
+    if(fnt == 'Lobster, cursive' || fnt == 'Times New Roman'){
+        fontBtn.style.fontSize = "18px";    
+    }
+    else{
+    fontBtn.style.fontSize = "15px";
+    }
     txtfont = fnt;
 }
 function addFrame(fr){
@@ -380,7 +388,7 @@ span.onclick = function() {
 
 ok.onclick = function() {
   textEntry.style.display = "none";
-  imgData=ctx.getImageData(0,0,1370,600);
+  imgData=ctx.getImageData(0,0,pA.clientWidth, pA.clientHeight);
   isDrawingText = true;
   //console.log(document.getElementById("te").value);
 }

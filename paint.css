@@ -47,20 +47,20 @@ button {
   align-items: center;
 }
 .active{
-	background-color: rgba(148, 255, 102,0.6);
+  background-color: rgba(148, 255, 102,0.6);
 }
 
 .paint_area{
-	margin-top: 14px;
-	height: calc(100% - 40px);
+  margin-top: 14px;
+  height: calc(100% - 40px);
 }
 .slider{
-	padding: 0px 12px;
-	display: flex;
-	flex-wrap: nowrap;
+  padding: 0px 12px;
+  display: flex;
+  flex-wrap: nowrap;
 }
 .slider > p{
-	padding: 0px 8px;
+  padding: 0px 8px;
 }
 ////////////
 
@@ -91,11 +91,11 @@ button {
 }
 
 .dropdown:hover .dropdown-content{
-	display: block;
+  display: block;
 }
 
 /*text input pop up*/
-.textEntry {
+.textEntry,.imageEntry {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
@@ -116,19 +116,20 @@ button {
   border: 1px solid #888;
   width: 20%;
 }
-.close {
+.close,.close1{
   color: #aaaaaa;
   float: right;
   font-size: 28px;
   font-weight: bold;
 }
-.ok{
+
+.ok,.ok_img{
   color: #aaaaaa;
   font-size: 14px;
   font-weight: bold;
 }
-.close:hover,
-.close:focus,
+.close:hover,.close1:hover,
+.close:focus,.close1:focus,
 .ok:hover,
 .ok:focus {
   color: #000;
@@ -136,37 +137,47 @@ button {
   cursor: pointer;
 }
 
+.ok_img:hover,
+.ok_img:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 #msform fieldset {
-	background: white;
-	border: 0 none;
-	border-radius: 3px;
-	box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
-	padding: 20px 30px;
-	box-sizing: border-box;
-	width: 80%;
-	margin: 0 10%;
-	position: relative;
+  background: white;
+  border: 0 none;
+  border-radius: 3px;
+  box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+  padding: 20px 30px;
+  box-sizing: border-box;
+  width: 80%;
+  margin: 0 10%;
+  position: relative;
 }
 #msform input, #msform textarea {
-	padding: 15px;
-	border: 1px solid #ccc;
-	border-radius: 3px;
-	margin-bottom: 10px;
-	width: 100%;
-	box-sizing: border-box;
-	font-family: montserrat;
-	color: #2C3E50;
-	font-size: 13px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-bottom: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: montserrat;
+  color: #2C3E50;
+  font-size: 13px;
 }
 /*headings*/
 .fs-title {
-	font-size: 15px;
-	text-transform: uppercase;
-	color: #2C3E50;
+  font-size: 15px;
+  text-transform: uppercase;
+  color: #2C3E50;
   margin-top:10px;
-	margin-bottom: 30px;
+  margin-bottom: 30px;
 }
 .Fonts{
   text-align: center;
   padding: 3px 0px;
+}
+.img{
+  display: none;
 }

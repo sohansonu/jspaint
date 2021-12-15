@@ -11,6 +11,7 @@ let rgb = [250, 0, 0];
 let rect = paint.getBoundingClientRect();
 let isDrawing = false;
 let isDrawingText = false;
+let isDrawingImage = false;
 let imgData=0;
 let frames=[ctx.getImageData(0, 0, pA.clientWidth, pA.clientHeight)];
 let presentFrame=0;
@@ -29,11 +30,20 @@ var txtfont="Times New Roman";
 //textentry variables
 var textEntry = document.getElementById("textEntry");
 
-var textButton = document.getElementById("txtEntry");
+var textButton = document.getElementById("txtB");
 
 var span = document.getElementsByClassName("close")[0];
 
 var ok = document.getElementsByClassName("ok")[0];
+
+//imageentry variables
+var imageEntry = document.getElementById("imageEntry");
+
+var imageButton = document.getElementById("imgB");
+
+var span_img = document.getElementsByClassName("close1")[0];
+
+var ok_img = document.getElementsByClassName("ok_img")[0];
 
 //Font button variable
 var fontBtn = document.getElementById("Fonts");
@@ -42,11 +52,25 @@ var fontBtn = document.getElementById("Fonts");
 //slider defaults
 slider = document.getElementById("size_in_px");
 slider_value = document.getElementById("range_display");
-
+let wheel = 1;
 //lets make default width to 1
 slider.value=1
 slider_value.innerHTML = slider.value;
+
 //let's add the mouse event
+
+
+paint.addEventListener('wheel', e => {
+    if(wheel>=1 && wheel<=20){
+        wheel = wheel - (e.deltaY/100);
+    }
+    if(wheel<1){wheel = 1;}
+    else if(wheel>20){wheel=20;}
+    slider.value = wheel;
+    slider_value.innerHTML = slider.value;
+    //console.log(wheel);
+
+})
 
 paint.addEventListener('mousedown', e => {
     
@@ -73,7 +97,7 @@ paint.addEventListener('mousedown', e => {
 })
 
 paint.addEventListener('mousemove', e => {
-
+    width = document.getElementById("size_in_px").value;
     if(isDrawing === true){
 
         if(activeButton != 1 && activeButton != 3){
@@ -88,7 +112,7 @@ paint.addEventListener('mousemove', e => {
         }    
 
         //width common for brushes and eraser    
-        width = document.getElementById("size_in_px").value; 
+         
         if(activeButton!=2 && activeButton!=5){
             lineDraw(ctx,x,y,e.clientX - rect.left,e.clientY - rect.top,style,width);
             x = e.clientX - rect.left;
@@ -130,6 +154,10 @@ paint.addEventListener('mousemove', e => {
         txtStyle = document.getElementById("color_ip").value;
         textDraw(ctx,e.clientX - rect.left,e.clientY - rect.top,document.getElementById("te").value,txtWidth,"px ".concat(txtfont),txtStyle);
     }
+    else if(isDrawingImage === true){
+        ctx.putImageData(imgData, 0, 0);
+        imgDraw(ctx,e.clientX - rect.left,e.clientY - rect.top,width);
+    }
 })
 
 paint.addEventListener('mouseup', e => {
@@ -140,6 +168,7 @@ paint.addEventListener('mouseup', e => {
     y = e.clientY - rect.top;
     isDrawing = false;
     isDrawingText=false;
+    isDrawingImage=false;
     x = 0;
     y = 0;
     if(activeButton == 5){ctx.globalCompositeOperation = 'source-over';}
@@ -174,19 +203,22 @@ paint.addEventListener('touchmove', e => {
 
     if(isDrawing === true){
 
+        width = document.getElementById("size_in_px").value;
+
+
         if(activeButton != 1 && activeButton != 3){
             style = document.getElementById("color_ip").value;
             //console.log(style);
         }
-        else if(activeButton == 1){style = "#000"}
+        else if(activeButton == 1){style = "#000";}
         else if(activeButton == 3){
             var temp_rbg=get_rgb(rgb);
             rgb = temp_rbg;
             style = `rgba(${rgb[0]},${rgb[1]},${rgb[2]})`;
         }    
 
-        //width common for brushes and eraser    
-        width = document.getElementById("size_in_px").value; 
+
+        
         if(activeButton!=2 && activeButton!=5){
             lineDraw(ctx,x,y,e.touches[0].clientX - rect.left,e.touches[0].clientY - rect.top,style,width);
             x = e.touches[0].clientX - rect.left;
@@ -332,9 +364,11 @@ function addFrame(fr){
 
 }
 function lineDraw(ctx,x1,y1,x2,y2,styleColor,wd){
+    
     ctx.beginPath();
     ctx.strokeStyle = styleColor;
-    ctx.lineWidth = wd;
+    if(styleColor == "#000"){ ctx.lineWidth = wd*5;}
+    else{ctx.lineWidth = wd;}
     ctx.moveTo(x1,y1);
     ctx.lineTo(x2,y2);
     ctx.lineCap = ctx.lineJoin = 'round';
@@ -367,6 +401,12 @@ function textDraw(ctx,x,y,txt,wd,font,styleColor){
     ctx.fillStyle = styleColor;
     ctx.fillText(txt, x, y);
 }
+
+function imgDraw(ctx,x,y,wd){
+    var tempimg = document.getElementById("img");
+    ctx.drawImage(tempimg,x,y, (tempimg.width/10)*wd , (tempimg.height/10)*wd );
+}
+
 function active(n){
     buttons[activeButton].classList.remove("active");
     buttons[n].classList.add("active");
@@ -385,12 +425,35 @@ textButton.onclick = function() {
 span.onclick = function() {
   textEntry.style.display = "none";
 }
-
+  
 ok.onclick = function() {
   textEntry.style.display = "none";
   imgData=ctx.getImageData(0,0,pA.clientWidth, pA.clientHeight);
   isDrawingText = true;
   //console.log(document.getElementById("te").value);
+}
+
+imageButton.onclick = function() {
+  imageEntry.style.display = "block";
+}
+
+span_img.onclick = function() {
+  imageEntry.style.display = "none";
+}
+
+ok_img.onclick = function() {
+  imageEntry.style.display = "none";
+  imgData=ctx.getImageData(0,0,pA.clientWidth, pA.clientHeight);
+  isDrawingImage = true;
+  //console.log(document.getElementById("imge").value);
+}
+
+function download(){
+    const D_img = paint.toDataURL();
+    const link = document.createElement("a");
+    link.href = D_img;
+    link.download = "canvas.png";
+    link.click();
 }
 
 function fillArea(cx,cy,data){
@@ -508,6 +571,14 @@ function fillArea(cx,cy,data){
         if(x[0]==y[0] && x[1]==y[1] && x[2]==y[2]){return true;}
         else{return false;}    
     }
+}
+function preview(input){
+    var reader = new FileReader();
+    reader.onload = function(e){
+        document.getElementById("imgview").setAttribute("src",e.target.result);
+        document.getElementById("img").setAttribute("src",e.target.result);
+    };
+    reader.readAsDataURL(input.files[0]);
 }
 
 //Bucket fill algo-1

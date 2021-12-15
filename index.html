@@ -17,6 +17,7 @@
 					
 				</button>
 			</li>
+			<!--
 			<li>
 				<button onclick="multicolor()" id="multicolor" class="multicolor">
 					<span style=" background: -webkit-gradient(linear, right top, left bottom, from(#49d6fc), to(#9900ff));
@@ -26,6 +27,7 @@
 					</span>
 				</button>
 			</li>
+			-->
 			<li>
 				<button onclick="eraser()" id="Eraser" class="Eraser">
 					
@@ -36,7 +38,7 @@
 			<li>
 				<button onclick="fill()" id="Fill" class="Fill">
 					
-						<i class="fas fa-fill"></i>
+						<i class="fas fa-fill-drip"></i>
 					
 				</button>
 			</li>
@@ -88,7 +90,7 @@
 				</button>
 			</li>
 			<li>
-				<button id="txtEntry">
+				<button id="txtB">
 						
 					    <i class="fas fa-font"></i>
 					
@@ -127,6 +129,37 @@
 					  	<button onclick="setFont('Potta One')"><p style="font-family: 'Potta One', cursive;">Sample Text</p></button>
 					  </div>
 				</div>
+			</li>
+			<li>
+				<button id="imgB">
+						
+					    <i class="fas fa-image"></i>
+					
+				</button>
+				<div class="imageEntry" id="imageEntry">
+					<div class="modal-content">
+					    <span class="close1">&times;</span>
+					    <form id="msform=">
+					        <fieldset>
+					            <h2 class="fs-title">Select Image</h2>
+
+					            <input id="imge" type="file" name="myImage" accept=".jpg, .jpeg, .png" onchange="preview(this)" class="imge"/>
+
+					            <span class="ok_img">ok</span>
+					        </fieldset>        
+					    </form>
+					    <p><img id="imgview" class="imgview" width="250px" height="100px"></p>
+					    <p><img id="img" class="img"></p>
+					</div>
+					
+				</div>
+			</li>
+			<li>
+				<button onclick="download()" class="download" id="download">
+				
+					    <i class="fas fa-download"></i>
+					
+				</button>
 			</li>
 		</ul>
 		

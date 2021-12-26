@@ -17,7 +17,12 @@ let frames=[ctx.getImageData(0, 0, pA.clientWidth, pA.clientHeight)];
 let presentFrame=0;
 let pixel = 0;
 
-
+//lockedcanvas
+let l_canvas = document.querySelector('#locked_frame');
+l_canvas.height= pA.clientHeight;
+l_canvas.width= pA.clientWidth;
+let l_ctx = l_canvas.getContext("2d");
+let locked=false;
 
 const buttons=[document.getElementById("Brush"),document.getElementById("Eraser"),
                 document.getElementById("Shapes"),document.getElementById("multicolor"),
@@ -367,8 +372,14 @@ function lineDraw(ctx,x1,y1,x2,y2,styleColor,wd){
     
     ctx.beginPath();
     ctx.strokeStyle = styleColor;
-    if(styleColor == "#000"){ ctx.lineWidth = wd*5;}
-    else{ctx.lineWidth = wd;}
+    if(styleColor == "#000"){ 
+        ctx.lineWidth = wd*5;
+        ctx.globalCompositeOperation='destination-out';
+    }
+    else{
+        ctx.lineWidth = wd;
+        ctx.globalCompositeOperation='source-over';
+    }
     ctx.moveTo(x1,y1);
     ctx.lineTo(x2,y2);
     ctx.lineCap = ctx.lineJoin = 'round';
@@ -580,6 +591,34 @@ function preview(input){
     };
     reader.readAsDataURL(input.files[0]);
 }
+
+
+function lock_unlock(){
+    
+    if(!locked){
+        console.log(locked)
+        temp_img=ctx.getImageData(0,0,pA.clientWidth, pA.clientHeight);
+        l_ctx.putImageData(temp_img,0,0);
+
+        locked=true;
+        document.getElementById("lu").innerHTML='<i class="fas fa-lock"></i>';
+    }
+    else{
+        console.log(locked)
+        temp_img=l_ctx.getImageData(0,0,pA.clientWidth, pA.clientHeight);
+        temp_img2=ctx.getImageData(0,0,pA.clientWidth, pA.clientHeight);
+        l_ctx.clearRect(0,0,l_canvas.width,l_canvas.height);
+        ctx.putImageData(temp_img,0,0);
+        //ctx.globalCompositeOperation='destination-over';
+        //ctx.putImageData(temp_img2,0,0);
+        //ctx.globalCompositeOperation='source-over';
+        locked=false;
+        document.getElementById("lu").innerHTML='<i class="fas fa-lock-open"></i>';
+    }
+}
+
+
+
 
 //Bucket fill algo-1
 /*

@@ -161,11 +161,20 @@
 					
 				</button>
 			</li>
+			<li>
+				<button onclick="lock_unlock()" class="lu" id="lu">
+				
+					    <i class="fas fa-lock-open"></i>
+					
+				</button>
+			</li>
 		</ul>
 		
 	</div>
 	<div class="paint_area" id="paint_area">
-		<canvas id="paint">
+		<canvas id="locked_frame" class="locked_frame">
+		</canvas>
+		<canvas id="paint" class="paint">
 		</canvas>
 	</div>
 <script type="text/javascript" src="paint.js"></script>	
